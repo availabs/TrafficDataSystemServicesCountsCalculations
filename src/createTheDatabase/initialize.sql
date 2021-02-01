@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS short_count_volume;
+DROP TABLE IF EXISTS short_count_vehicle_classification ;
 
 CREATE TABLE short_count_volume (
   rc_station                   TEXT,
@@ -120,6 +121,50 @@ CREATE TABLE short_count_volume (
   interval_24_2                INTEGER,
   interval_24_3                INTEGER,
   interval_24_4                INTEGER,
+  total                        INTEGER,
+  flag_field                   TEXT,
+  batch_id                     TEXT
+);
+
+CREATE TABLE short_count_vehicle_classification (
+  rc_station                   TEXT,
+  count_id                     TEXT,
+  rg                           INTEGER,
+  region_code                  INTEGER,
+  county_code                  INTEGER,
+  stat                         TEXT,
+  rcsta                        TEXT,
+  functional_class             INTEGER,
+  factor_group                 INTEGER,
+  latitude                     REAL,
+  longitude                    REAL,
+  specific_recorder_placement  TEXT,
+  channel_notes                TEXT,
+  data_type                    TEXT,
+  blank                        TEXT,
+  year                         INTEGER,
+  month                        INTEGER,
+  day                          INTEGER,
+  day_of_week                  TEXT,
+  federal_direction            INTEGER,
+  lane_code                    INTEGER,
+  lanes_in_direction           INTEGER,
+  collection_interval          INTEGER,
+  data_interval                REAL,
+  class_f1                     INTEGER,
+  class_f2                     INTEGER,
+  class_f3                     INTEGER,
+  class_f4                     INTEGER,
+  class_f5                     INTEGER,
+  class_f6                     INTEGER,
+  class_f7                     INTEGER,
+  class_f8                     INTEGER,
+  class_f9                     INTEGER,
+  class_f10                    INTEGER,
+  class_f11                    INTEGER,
+  class_f12                    INTEGER,
+  class_f13                    INTEGER,
+  unclassified                 INTEGER,
   total                        INTEGER,
   flag_field                   TEXT,
   batch_id                     TEXT

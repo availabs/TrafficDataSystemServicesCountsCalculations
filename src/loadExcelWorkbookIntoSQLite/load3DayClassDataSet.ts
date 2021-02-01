@@ -19,24 +19,26 @@ const db = new Database(dbFilePath)
 
 const workbook = XLSX.readFile(workbookFilePath)
 
-const sheet = workbook.Sheets[workbook.SheetNames[1]]
+const sheet = workbook.Sheets[workbook.SheetNames[3]]
 
 const sheetAsJson = XLSX.utils.sheet_to_json(sheet, {header: 1})
 
-const header = sheetAsJson[7].map(colName => colName.trim().toLowerCase())
+const header = sheetAsJson[9].map(colName => colName.trim().toLowerCase())
 
-const dataRows = sheetAsJson.slice(8, 37).map(row => row.map(col => typeof col === 'string' ? col.trim() : col));
+const dataRows = sheetAsJson.slice(10).map(
+  row => row.map(col => typeof col === 'string' ? col.trim() : col)
+);
 
 db.exec('BEGIN;')
-db.exec('DELETE FROM short_count_volume')
+db.exec('DELETE FROM short_count_vehicle_classification')
+
+const insertStmt = db.prepare(`
+  INSERT INTO short_count_vehicle_classification (${header})
+    VALUES(${header.map(() => '?')}) ;
+`)
 
 dataRows.forEach(row => {
   assert(header.length === row.length)
-
-  const insertStmt = db.prepare(`
-    INSERT INTO short_count_volume (${header})
-      VALUES(${header.map(() => '?')}) ;
-  `)
 
   insertStmt.run(row)
 })
