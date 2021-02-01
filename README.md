@@ -6,6 +6,18 @@ Contract #C037910
 
 October 22, 2020
 
+## Sources
+
+* [NYSDOT Consulting Services Opportunities](
+    https://www.dot.ny.gov/doing-business/opportunities/consult-opportunities
+  )
+  * [C037910 Attachment 21 SampleDataTest (Excel)](
+      https://www.dot.ny.gov/portal/pls/portal/MEXIS_APP.BC_CONSULTING_NONAE_ADMIN.VIEWFILE?p_file_id=36656
+    )
+  * [C037910_Attachment 22_Required_Calculations (Adobe PDF)](
+      https://www.dot.ny.gov/portal/pls/portal/MEXIS_APP.BC_CONSULTING_NONAE_ADMIN.VIEWFILE?p_file_id=36703
+    )
+
 ## Directions
 
 > NOTE: The proposer shall refer to Attachment 22 (Required Calculations)
