@@ -15,6 +15,9 @@ const dbFilePath = join(__dirname, '../../../data/sqlite/nysdot_traffic_counts.s
 
 const db = new Database(dbFilePath)
 
+const axle_adjustment_factor = 0.978
+const seasonal_adjustment_factor = 0.912
+
 const volumeCountsMetaQueryStmt = db.prepare(`
   SELECT
       *
@@ -48,7 +51,13 @@ export function* makeVolumeCountsDataIterator(): Generator<ShortCountVolumeSessi
 
     if (curCountId !== count_id) {
       if (curCountId) {
-        yield {count_id: curCountId, data: curData, meta: curMeta}
+        yield {
+          count_id: curCountId,
+          data: curData,
+          meta: curMeta,
+          axle_adjustment_factor,
+          seasonal_adjustment_factor
+        }
       }
 
       curCountId = count_id
@@ -60,6 +69,12 @@ export function* makeVolumeCountsDataIterator(): Generator<ShortCountVolumeSessi
   }
 
   if (!_.isEmpty(curData)) {
-    yield {count_id: curCountId, data: curData, meta: curMeta}
+    yield {
+      count_id: curCountId,
+      data: curData,
+      meta: curMeta,
+      axle_adjustment_factor,
+      seasonal_adjustment_factor
+    }
   }
 }
