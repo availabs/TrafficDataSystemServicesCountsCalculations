@@ -261,9 +261,9 @@ CREATE VIEW short_count_volume_session_data
       interval_24_3,
       interval_24_4,
       total
-    FROM short_count_volume 
+    FROM short_count_volume
 ;
-    
+
 
 CREATE TABLE short_count_vehicle_classification (
   rc_station                   TEXT,

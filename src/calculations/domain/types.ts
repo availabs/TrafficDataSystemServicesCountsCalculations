@@ -33,6 +33,12 @@ export enum DaysOfWeek {
   Saturday = 'Saturday',
 }
 
+// Vehicle/Axle code in Volume files: 1=Vehicle count 2=Axles/2 count.
+export enum VehicleAxleCode {
+  VEHICLE = 1,
+  AXLE_PAIRS = 2,
+}
+
 export type CountSessionId = string
 
 export interface ShortCountVolumeSessionMetadata {
@@ -54,7 +60,7 @@ export interface ShortCountVolumeSessionMetadata {
 
 export interface ShortCountVolumeSessionData {
   count_id: CountSessionId;
-  vehicle_axle_code: number;
+  vehicle_axle_code: VehicleAxleCode;
   year: number;
   month: number;
   day: number;

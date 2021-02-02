@@ -119,13 +119,13 @@ test('Get Short Counts Session Record', (t) => {
   for (const row of iter) {
     const countSession = new CountSession(row)
 
-    countSession.workWeekVolumeCounts.forEach(row => {
+    countSession.workweekVolumeCounts.forEach(row => {
       t.ok(row.day_of_week !== DaysOfWeek.Saturday && row.day_of_week !== DaysOfWeek.Sunday)
 
       const intervals = Object.keys(row).filter(k => /^interval_/.test(k))
 
 
-      let excludedIntervals = []
+      let excludedIntervals: string[] = []
 
       if (row.day_of_week === DaysOfWeek.Monday) {
         excludedIntervals = excludedMondayIntervals
@@ -141,6 +141,38 @@ test('Get Short Counts Session Record', (t) => {
       t.ok(excludedIntervals.every(intvl => row[intvl] === null))
     })
     t.ok(row.data.length > 0)
+  }
+
+  t.end()
+});
+
+test.only('QuarterHourly and Hourly sums equal', (t) => {
+  const iter = makeVolumeCountsDataIterator()
+
+  for (const row of iter) {
+    const countSession = new CountSession(row)
+
+    const qtrHrSums = countSession.workweekVolumeCounts.map(d =>
+      Object.keys(d)
+        .filter(k => /^interval_/.test(k))
+        .reduce((sum, k) => sum + d[k] ?? 0, 0)
+    )
+
+    const hrSums = countSession.workweekHourlyVolumeCounts.map(d =>
+      Object.keys(d)
+        .filter(k => /^interval_/.test(k))
+        .reduce((sum, k) => sum + d[k] ?? 0, 0)
+    )
+
+    t.deepEqual(qtrHrSums, hrSums)
+
+    t.ok(
+      countSession.workweekVolumeCounts.every((d, i) =>
+        (d.day_of_week === DaysOfWeek.Monday || d.day_of_week === DaysOfWeek.Friday)
+          ? d.total !== qtrHrSums[i]
+          : d.total === qtrHrSums[i]
+      )
+    )
   }
 
   t.end()
