@@ -18,6 +18,21 @@ October 22, 2020
       https://www.dot.ny.gov/portal/pls/portal/MEXIS_APP.BC_CONSULTING_NONAE_ADMIN.VIEWFILE?p_file_id=36703
     )
 
+### Auxillary
+
+* [NYSDOT Highway Data Services Bureau TRAFFIC MONITORING SECTION](
+    https://www.dot.ny.gov/highway-data-services
+  )
+
+  Contains links to Traffic Count Program References, such as
+    Seasonal Adjustment Factors,
+    Axle Adjustment Factors,
+    etc.
+
+* [NYSDOT HIGHWAY DATA SERVICES > HDSB RAW TRAFFIC DATA](
+    https://www.dot.ny.gov/divisions/engineering/technical-services/highway-data-services/hdsb
+  )
+
 ## Directions
 
 > NOTE: The proposer shall refer to Attachment 22 (Required Calculations)
