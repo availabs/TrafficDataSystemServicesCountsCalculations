@@ -12,3 +12,5 @@ export default function gaussianRound(num: number, decimalPlaces: number = 0) {
     ((i % 2 == 0) ? i : i + 1) : Math.round(n);
   return d ? r / m : r;
 }
+
+export const gaussianRoundToInt = (n: number) => gaussianRound(n)

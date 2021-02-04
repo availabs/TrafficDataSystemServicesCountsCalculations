@@ -146,7 +146,7 @@ test('Get Short Counts Session Record', (t) => {
   t.end()
 });
 
-test.only('QuarterHourly and Hourly sums equal', (t) => {
+test('QuarterHourly and Hourly sums equal', (t) => {
   const iter = makeVolumeCountsDataIterator()
 
   for (const row of iter) {
@@ -173,6 +173,18 @@ test.only('QuarterHourly and Hourly sums equal', (t) => {
           : d.total === qtrHrSums[i]
       )
     )
+  }
+
+  t.end()
+});
+
+
+test.only('AverageHourlyVolumeCounts', (t) => {
+  const iter = makeVolumeCountsDataIterator()
+
+  for (const row of iter) {
+    const countSession = new CountSession(row)
+    t.ok(true)
   }
 
   t.end()

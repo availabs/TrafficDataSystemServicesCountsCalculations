@@ -5,7 +5,7 @@ import {join} from 'path'
 
 import Database from 'better-sqlite3'
 
-const dbFilePath = join(__dirname, '../../data/sqlite/nysdot_traffic_counts.sqlite3')
+const dbFilePath = join(__dirname, '../../data/sqlite/nysdot_traffic_counts.volume.sqlite3')
 
 const sqlFilePath = join(__dirname, './initialize.sql')
 

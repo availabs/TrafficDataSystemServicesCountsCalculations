@@ -11,7 +11,7 @@ import Database from 'better-sqlite3'
 
 import XLSX from 'xlsx'
 
-const dbFilePath = join(__dirname, '../../data/sqlite/nysdot_traffic_counts.sqlite3')
+const dbFilePath = join(__dirname, '../../data/sqlite/nysdot_traffic_counts.volume.sqlite3')
 
 const workbookFilePath = join(__dirname, '../../data/nysdot_excel_workbook/MEXIS_APP.BC_CONSULTING_NONAE_ADMIN.sandbox.xls');
 

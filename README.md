@@ -1,5 +1,7 @@
 # NEW YORK STATE DEPARTMENT OF TRANSPORTATION (NYSDOT) REQUEST FOR PROPOSALS
 
+WARNING: This repo currently contains lots of dead code.
+
 Traffic Data System (TDS) Services for NYSDOT
 
 Contract #C037910
@@ -61,3 +63,11 @@ October 22, 2020
 > answer. Additionally, the proposer must remember to include their name and
 > the date in the provided spaces above the 3-Day Class Averaged Values
 > (Primary Direction) table.
+
+## Questions
+
+> Step 2: Analyze Data
+> • Each time interval needs to have at least 2 values.
+
+Each time interval must have 2 values, but in the require calculations document,
+  the time intervals are hourly. The data is quarter hourly.

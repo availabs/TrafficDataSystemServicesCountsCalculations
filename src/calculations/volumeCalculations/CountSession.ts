@@ -96,6 +96,43 @@ function getHourlyTotals(
   })
 }
 
+function getHourIntervalAvgsByDirection(
+  hourlyTotalVolumes: any
+): any {
+  const keyFields = ['federal_direction']
+
+  const getKey = (d: HourlyVolumes) => keyFields.map(k => `${d[k]}`).join('|')
+
+  const grouped = _.groupBy(hourlyTotalVolumes, getKey)
+  const groupKeys = Object.keys(grouped)
+
+  const metadataByKey = groupKeys.reduce((acc, k) => {
+    acc[k] = _.pick(grouped[k][0], keyFields)
+    return acc
+  }, {})
+
+  const intervals = Object.values(HourlyIntervalNames)
+
+  const averageHoursByKey = groupKeys.reduce((acc, k) => {
+    acc[k] = intervals.reduce((acc2, intvl) => {
+      const g = grouped[k].map(({[intvl]: intvlVol}) => intvlVol).filter(c => !_.isNil(c))
+
+      acc2[intvl] = gaussianRound(_.sum(g) / g.length)
+
+      return acc2
+    }, {})
+
+    return acc
+  }, {})
+
+  const averageHourIntervalAvgsByDirection =
+    groupKeys.map(k => ({...metadataByKey[k], ...averageHoursByKey[k]}))
+
+  return averageHourIntervalAvgsByDirection
+}
+
+
+
 function getWorkweekHourlyTotals(hourlyTotalVolumes: any) {
   const workweekHourlyTotals = hourlyTotalVolumes
     .filter(
@@ -109,6 +146,8 @@ function getWorkweekHourlyTotals(hourlyTotalVolumes: any) {
         if (/^interval_/.test(k)) {
           const h = intervalNameToHour(k)
 
+          console.log('H:', h)
+
           if (h < 6) {
             row[k] = null
           }
@@ -118,6 +157,8 @@ function getWorkweekHourlyTotals(hourlyTotalVolumes: any) {
       Object.keys(row).forEach(k => {
         if (/^interval_/.test(k)) {
           const h = intervalNameToHour(k)
+
+          console.log('H:', h)
 
           if (h >= 12) {
             row[k] = null
@@ -138,7 +179,6 @@ function getAverageWorkweekHoursByAxleCodeAndFedDir(workweekHourlyTotals: any, a
   const grouped = _.groupBy(workweekHourlyTotals, getKey)
   const groupKeys = Object.keys(grouped)
 
-
   const metadataByKey = groupKeys.reduce((acc, k) => {
     acc[k] = _.pick(grouped[k][0], keyFields)
     return acc
@@ -152,7 +192,7 @@ function getAverageWorkweekHoursByAxleCodeAndFedDir(workweekHourlyTotals: any, a
 
       const fAxle = metadataByKey[k].vehicle_axle_code === 2 ? axleFactor : 1
 
-      const avg = gaussianRound(_.sum(g) / g.length * fAxle)
+      const avg = _.sum(g) / g.length * fAxle
 
       acc2[intvl] = avg
 
@@ -188,7 +228,7 @@ function getAverageWorkweekHoursByDirection(averageWorkweekHoursByAxleCodeAndFed
     acc[k] = intervals.reduce((acc2, intvl) => {
       const g = grouped[k].map(({[intvl]: intvlVol}) => intvlVol).filter(c => !_.isNil(c))
 
-      acc2[intvl] = _.sum(g)
+      acc2[intvl] = gaussianRound(_.sum(g))
 
       return acc2
     }, {})
@@ -234,8 +274,17 @@ export default class CountSession {
   data: ShortCountVolumeSessionData[];
   axle_adjustment_factor: number;
   seasonal_adjustment_factor: number;
-  groupedHourlyVolumes: GroupedHourlyVolumes;
-  averageHourlyVolumes: any;
+
+  hourlyVolumes: any;
+  groupedHourlyVolumes: any;
+  hourlyTotalVolumes: any;
+  hourIntervalAvgsByDirection: any;
+  workweekHourlyTotalVolumes: any;
+  averageWorkweekHoursByAxleCodeAndFedDir: any;
+  averageWorkweekHoursByDirection: any;
+  averageDailyTrafficByDirection: any;
+  directionalAadt: any;
+  finalAadt: any;
 
   constructor(sessionRecord: ShortCountVolumeSessionRecord) {
     this.count_id = sessionRecord.count_id;
@@ -247,6 +296,8 @@ export default class CountSession {
     this.hourlyVolumes = getHourlyVolumes(this.data)
     this.groupedHourlyVolumes = getGroupedHourlyVolumes(this.hourlyVolumes)
     this.hourlyTotalVolumes = getHourlyTotals(this.groupedHourlyVolumes)
+
+    this.hourIntervalAvgsByDirection = getHourIntervalAvgsByDirection(this.hourlyTotalVolumes)
 
     this.workweekHourlyTotalVolumes = getWorkweekHourlyTotals(this.hourlyTotalVolumes)
 
@@ -267,7 +318,7 @@ export default class CountSession {
     // console.log(JSON.stringify(this.groupedHourlyVolumes, null, 4))
     // console.log(JSON.stringify(this.hourlyTotalVolumes, null, 4))
     // console.log(JSON.stringify(this.workweekHourlyTotalVolumes, null, 4))
-    console.log(JSON.stringify(this.directionalAadt, null, 4))
-    console.log(JSON.stringify(this.finalAadt, null, 4))
+    // console.log(JSON.stringify(this.directionalAadt, null, 4))
+    // console.log(JSON.stringify(this.finalAadt, null, 4))
   }
 }
