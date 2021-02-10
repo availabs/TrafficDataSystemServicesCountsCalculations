@@ -21,7 +21,6 @@
     "sourceMap": true
   },
   "include": [
-    "./run",
     "src/"
   ],
   "ts-node": {
